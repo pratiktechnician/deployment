@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MinduraX Intelligence - Automation with Intelligence. Making advanced automation and agentic AI accessible, practical, and affordable for individuals, startups, and SMEs.">
+    <meta name="keywords" content="MinduraX Intelligence, AI Chatbots, Workflow Automation, Personal AI Assistants, IT Consulting, Agentic AI, SMEs AI">
+    <meta name="author" content="MinduraX Intelligence">
+    <title>MinduraX Intelligence | Automation with Intelligence</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           CSS RESET & CORE VARIABLES
+           ========================================================================== */
+        :root {
+            --bg-dark: #05070c;
+            --bg-card: rgba(13, 18, 30, 0.75);
+            --bg-card-hover: rgba(18, 26, 45, 0.9);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-color-glow: rgba(0, 240, 255, 0.35);
+            
+            --cyan-primary: #00f0ff;
+            --cyan-secondary: #00b8d4;
+            --indigo-accent: #6366f1;
+            --purple-accent: #a855f7;
+            --pink-accent: #ec4899;
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            --container-max: 1240px;
+            --transition-fast: 0.25s ease;
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            
+            --glow-cyan: 0 0 25px rgba(0, 240, 255, 0.3);
+            --glow-card: 0 15px 35px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 85% 45%, rgba(0, 240, 255, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 50% 85%, rgba(168, 85, 247, 0.1) 0%, transparent 55%);
+            background-attachment: fixed;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button, input, textarea, select {
+            font-family: inherit;
+            border: none;
+            outline: none;
+        }
+
+        /* ==========================================================================
+           UTILITIES & CONTAINERS
+           ========================================================================== */
+        .container {
+            width: 100%;
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--cyan-primary) 0%, #818cf8 50%, var(--purple-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-alt {
+            background: linear-gradient(135deg, #ffffff 30%, var(--cyan-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            background: rgba(0, 240, 255, 0.08);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            color: var(--cyan-primary);
+            font-size: 0.825rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .section-tag::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--cyan-primary);
+            box-shadow: 0 0 8px var(--cyan-primary);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1.8rem;
+            font-size: 0.975rem;
+            font-weight: 600;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyan-primary) 0%, var(--cyan-secondary) 100%);
+            color: #03060c;
+            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 240, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 240, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           HEADER / NAVBAR WITH OFFICIAL LOGO
+           ========================================================================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.25rem 0;
+            transition: var(--transition-fast);
+        }
+
+        .header.scrolled {
+            padding: 0.85rem 0;
+            background: rgba(5, 7, 12, 0.9);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+
+        .logo-img-wrapper {
+            position: relative;
+            width: 42px;
+            height: 42px;
+            border-radius: 0.65rem;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--cyan-primary), var(--indigo-accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--glow-cyan);
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 0.55rem;
+            object-fit: cover;
+            background: #0d121e;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2.25rem;
+        }
+
+        .nav-link {
+            font-size: 0.925rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-main);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--cyan-primary);
+            transition: var(--transition-fast);
+            border-radius: 2px;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+
+        /* ==========================================================================
+           HERO SECTION
+           ========================================================================== */
+        .hero {
+            padding-top: 10.5rem;
+            padding-bottom: 6.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 3.5rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.4rem 1.1rem;
+            border-radius: 9999px;
+            background: rgba(13, 18, 30, 0.8);
+            border: 1px solid var(--border-color-glow);
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(12px);
+        }
+
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--cyan-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--cyan-primary);
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        .hero-badge-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--cyan-primary);
+            letter-spacing: 0.02em;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 5.2vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-subheadline {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 2.25rem;
+            max-width: 600px;
+            font-weight: 400;
+            line-height: 1.65;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Hero Agent Terminal Graphic */
+        .hero-visual {
+            position: relative;
+        }
+
+        .hero-card-main {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            box-shadow: var(--glow-card);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyan-primary), var(--purple-accent), transparent);
+        }
+
+        .visual-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 0.45rem;
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background-color: #ef4444; }
+        .dot-yellow { background-color: #f59e0b; }
+        .dot-green { background-color: #10b981; }
+
+        .agent-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--cyan-primary);
+            font-weight: 600;
+            background: rgba(0, 240, 255, 0.08);
+            padding: 0.3rem 0.85rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(0, 240, 255, 0.25);
+        }
+
+        .visual-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .agent-stream {
+            background: rgba(5, 7, 12, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 0.85rem;
+            padding: 1.25rem;
+        }
+
+        .stream-title {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .task-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--indigo-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .task-item.completed .task-icon {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        .metric-badges {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 0.85rem;
+            padding: 1rem;
+            text-align: center;
+            transition: var(--transition-fast);
+        }
+
+        .metric-card:hover {
+            border-color: rgba(0, 240, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .metric-num {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--cyan-primary);
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Floating Badge */
+        .floating-badge-card {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            background: rgba(13, 18, 30, 0.9);
+            border: 1px solid var(--border-color-glow);
+            border-radius: 1rem;
+            padding: 0.85rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        .floating-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid var(--cyan-primary);
+        }
+
+        /* ==========================================================================
+           TRUST STRIP
+           ========================================================================== */
+        .trust-strip {
+            padding: 3.5rem 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(13, 18, 30, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-family: var(--font-heading);
+            font-size: 2.35rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-item p {
+            color: var(--text-muted);
+            font-size: 0.925rem;
+        }
+
+        /* ==========================================================================
+           ABOUT SECTION
+           ========================================================================== */
+        .about {
+            padding: 7.5rem 0;
+            position: relative;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .about-description {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .about-features {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-top: 0.75rem;
+        }
+
+        .feature-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .feature-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 0.7rem;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            color: var(--cyan-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 0.15rem;
+        }
+
+        .feature-point-title {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-point-desc {
+            font-size: 0.925rem;
+            color: var(--text-muted);
+        }
+
+        .about-card-visual {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            padding: 2.75rem;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-card-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .audience-tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.75rem;
+        }
+
+        .audience-chip {
+            padding: 0.6rem 1.1rem;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-main);
+            transition: var(--transition-fast);
+        }
+
+        .audience-chip:hover {
+            border-color: var(--cyan-primary);
+            color: var(--cyan-primary);
+            background: rgba(0, 240, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           SERVICES SECTION
+           ========================================================================== */
+        .services {
+            padding: 7.5rem 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(13, 18, 30, 0.5) 50%, transparent 100%);
+            position: relative;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            padding: 2.75rem 2rem;
+            backdrop-filter: blur(20px);
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            transition: var(--transition-fast);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            background: var(--bg-card-hover);
+            border-color: var(--border-color-glow);
+            box-shadow: 0 20px 40px -10px rgba(0, 240, 255, 0.2);
+        }
+
+        .service-card:hover::before {
+            background: linear-gradient(90deg, var(--cyan-primary), var(--indigo-accent));
+        }
+
+        .service-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 0.9rem;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cyan-primary);
+            margin-bottom: 1.75rem;
+            transition: var(--transition-fast);
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.08);
+            box-shadow: var(--glow-cyan);
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.25) 0%, rgba(99, 102, 241, 0.3) 100%);
+        }
+
+        .service-title {
+            font-family: var(--font-heading);
+            font-size: 1.45rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+        }
+
+        .service-desc {
+            color: var(--text-muted);
+            font-size: 0.975rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .service-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .service-list-item {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            font-size: 0.875rem;
+            color: var(--text-main);
+        }
+
+        .service-list-item svg {
+            color: var(--cyan-primary);
+            flex-shrink: 0;
+        }
+
+        /* ==========================================================================
+           USE CASE / IMPACT HIGHLIGHTS (RICH NEW SECTION)
+           ========================================================================== */
+        .impact-section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .impact-card {
+            background: rgba(13, 18, 30, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            backdrop-filter: blur(16px);
+            transition: var(--transition-fast);
+        }
+
+        .impact-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .impact-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--indigo-accent);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .impact-quote {
+            color: var(--text-main);
+            font-size: 1.05rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .impact-result {
+            font-size: 0.875rem;
+            color: var(--cyan-primary);
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           FAQ ACCORDION (RICH NEW SECTION)
+           ========================================================================== */
+        .faq-section {
+            padding: 7rem 0;
+            position: relative;
+        }
+
+        .faq-container {
+            max-width: 840px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            overflow: hidden;
+            backdrop-filter: blur(16px);
+            transition: var(--transition-fast);
+        }
+
+        .faq-item.active {
+            border-color: var(--border-color-glow);
+        }
+
+        .faq-header {
+            padding: 1.35rem 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            user-select: none;
+        }
+
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--cyan-primary);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 0 1.75rem;
+            color: var(--text-muted);
+            font-size: 0.975rem;
+            line-height: 1.65;
+        }
+
+        .faq-item.active .faq-body {
+            max-height: 200px;
+            padding: 0 1.75rem 1.5rem 1.75rem;
+        }
+
+        /* ==========================================================================
+           CONTACT SECTION
+           ========================================================================== */
+        .contact {
+            padding: 7rem 0;
+            position: relative;
+        }
+
+        .contact-container {
+            background: linear-gradient(135deg, rgba(13, 18, 30, 0.9) 0%, rgba(5, 7, 12, 0.95) 100%);
+            border: 1px solid var(--border-color-glow);
+            border-radius: 1.75rem;
+            padding: 4rem 3.5rem;
+            backdrop-filter: blur(24px);
+            box-shadow: var(--glow-card);
+            display: grid;
+            grid-template-columns: 1fr 1.25fr;
+            gap: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-container::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-muted);
+        }
+
+        .contact-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 0.7rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cyan-primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 0.9rem 1.1rem;
+            background: rgba(5, 7, 12, 0.75);
+            border: 1px solid var(--border-color);
+            border-radius: 0.7rem;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            transition: var(--transition-fast);
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: var(--cyan-primary);
+            box-shadow: 0 0 16px rgba(0, 240, 255, 0.25);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .toast-message {
+            display: none;
+            padding: 1rem;
+            border-radius: 0.7rem;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            color: #34d399;
+            font-size: 0.925rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        /* ==========================================================================
+           FOOTER WITH BRAND LOGO
+           ========================================================================== */
+        .footer {
+            border-top: 1px solid var(--border-color);
+            padding: 4.5rem 0 2rem 0;
+            background: rgba(3, 5, 9, 0.95);
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .social-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: var(--transition-fast);
+        }
+
+        .social-btn:hover {
+            color: var(--cyan-primary);
+            border-color: var(--cyan-primary);
+            background: rgba(0, 240, 255, 0.08);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            color: var(--text-dim);
+            font-size: 0.875rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-meta {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-meta a:hover {
+            color: var(--text-muted);
+        }
+
+        /* ==========================================================================
+           RESPONSIVE MEDIA QUERIES
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .hero-grid, .about-grid {
+                grid-template-columns: 1fr;
+                gap: 3.5rem;
+            }
+
+            .services-grid, .impact-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 320px;
+                height: 100vh;
+                background: rgba(13, 18, 30, 0.98);
+                backdrop-filter: blur(24px);
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                padding: 2rem;
+                transition: 0.4s ease;
+                border-left: 1px solid var(--border-color);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .mobile-toggle {
+                display: block;
+                z-index: 1001;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .services-grid, .impact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top, .footer-bottom {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .floating-badge-card {
+                position: static;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Canvas for Floating Particle Nodes -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- ==========================================================================
+         NAVIGATION BAR WITH OFFICIAL LINKEDIN LOGO
+         ========================================================================== -->
+    <header class="header" id="header">
+        <div class="container nav-wrapper">
+            <a href="#" class="logo">
+                <div class="logo-img-wrapper">
+                    <img src="https://media.licdn.com/dms/image/v2/D560BAQHE8JPsToKngA/img-crop_100/B56ZmWUnQ7IAAM-/0/1759163611586?e=2147483647&v=beta&t=7irfliQXShD58xIqrWDKWF0XexpA1Q2nj2TeBo_5HVE" alt="MinduraX Intelligence Logo" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <div style="display:none; width:100%; height:100%; align-items:center; justify-content:center; color:var(--cyan-primary); font-weight:800;">M</div>
+                </div>
+                <span>Mindura<span class="gradient-text">X</span></span>
+            </a>
+
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+
+            <nav class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#about" class="nav-link">About Us</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#impact" class="nav-link">Impact</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="#contact" class="btn btn-primary nav-cta">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==========================================================================
+         HERO SECTION
+         ========================================================================== -->
+    <section class="hero" id="home">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="hero-badge-dot"></span>
+                    <span class="hero-badge-text">Next-Gen Agentic AI & Consulting</span>
+                </div>
+                <h1 class="hero-title">
+                    <span class="gradient-text-alt">Automation with</span> <br>
+                    <span class="gradient-text">Intelligence.</span>
+                </h1>
+                <p class="hero-subheadline">
+                    At MinduraX Intelligence, we make advanced automation and agentic AI accessible to individuals, entrepreneurs, startups, freelancers, and small businesses (SMEs).
+                </p>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn btn-primary">
+                        <span>Contact Us</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+                    <a href="#services" class="btn btn-secondary">Explore Services</a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-card-main">
+                    <div class="visual-header">
+                        <div class="window-dots">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        <div class="agent-status">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>MinduraX Agent Active</span>
+                        </div>
+                    </div>
+
+                    <div class="visual-body">
+                        <div class="agent-stream">
+                            <div class="stream-title">
+                                <span>Autonomous Operations</span>
+                                <span style="color: var(--cyan-primary)">100% Efficiency</span>
+                            </div>
+                            <div class="task-list">
+                                <div class="task-item completed">
+                                    <div class="task-icon">✓</div>
+                                    <span>AI Customer Support Agent Routing</span>
+                                </div>
+                                <div class="task-item completed">
+                                    <div class="task-icon">✓</div>
+                                    <span>No-Code Multi-App Workflow Sync</span>
+                                </div>
+                                <div class="task-item">
+                                    <div class="task-icon">⚡</div>
+                                    <span>Personalized Executive Task Scheduling</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="metric-badges">
+                            <div class="metric-card">
+                                <div class="metric-num">10x</div>
+                                <div class="metric-label">Speed Increase</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-num">70%</div>
+                                <div class="metric-label">Cost Saved</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Official Brand Badge -->
+                <div class="floating-badge-card">
+                    <img src="https://media.licdn.com/dms/image/v2/D560BAQHE8JPsToKngA/img-crop_100/B56ZmWUnQ7IAAM-/0/1759163611586?e=2147483647&v=beta&t=7irfliQXShD58xIqrWDKWF0XexpA1Q2nj2TeBo_5HVE" alt="MinduraX Official Logo" class="floating-avatar">
+                    <div>
+                        <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">MinduraX Intelligence</div>
+                        <div style="font-size: 0.75rem; color: var(--cyan-primary);">Verified AI Consulting</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         TRUST STRIP
+         ========================================================================== -->
+    <section class="trust-strip">
+        <div class="container stats-grid">
+            <div class="stat-item">
+                <h3>100%</h3>
+                <p>Practical & Accessible AI</p>
+            </div>
+            <div class="stat-item">
+                <h3>24/7</h3>
+                <p>Automated Agent Coverage</p>
+            </div>
+            <div class="stat-item">
+                <h3>No-Code</h3>
+                <p>Seamless Integration</p>
+            </div>
+            <div class="stat-item">
+                <h3>SME Focused</h3>
+                <p>Tailored & Affordable</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         ABOUT US SECTION
+         ========================================================================== -->
+    <section class="about" id="about">
+        <div class="container about-grid">
+            <div class="about-text">
+                <div>
+                    <span class="section-tag">About MinduraX</span>
+                    <h2 class="section-title">Democratizing AI for Everyone, Everywhere.</h2>
+                </div>
+                <p class="about-description">
+                    We make advanced automation and agentic AI accessible to everyone, not just large corporations. We build smart, affordable, and practical AI agents designed to empower people, not overwhelm them.
+                </p>
+                <div class="about-features">
+                    <div class="feature-point">
+                        <div class="feature-icon-box">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="feature-point-title">Time-Saving Automation</h3>
+                            <p class="feature-point-desc">Eliminate manual drudgery with background agents operating round the clock.</p>
+                        </div>
+                    </div>
+                    <div class="feature-point">
+                        <div class="feature-icon-box">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="feature-point-title">Affordable & Scalable</h3>
+                            <p class="feature-point-desc">Designed specifically for SME budgets without compromising on enterprise capabilities.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-card-visual">
+                <h3 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 0.75rem;">Empowering Growth For:</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Actionable AI solutions engineered specifically for small teams and solopreneurs looking to scale efficiently.</p>
+                
+                <div class="audience-tag-cloud">
+                    <span class="audience-chip">🚀 Startups</span>
+                    <span class="audience-chip">💼 Freelancers</span>
+                    <span class="audience-chip">🏢 Small Businesses (SMEs)</span>
+                    <span class="audience-chip">💡 Entrepreneurs</span>
+                    <span class="audience-chip">👨‍💻 Solopreneurs</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         SERVICES SECTION
+         ========================================================================== -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Core Services</span>
+                <h2 class="section-title">Intelligent Solutions Designed for Growth</h2>
+                <p class="section-subtitle">Practical AI and automation tools customized to boost your efficiency, reduce overhead, and scale operations effortlessly.</p>
+            </div>
+
+            <div class="services-grid">
+                <!-- Service 1: AI Chatbots -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">AI Chatbots</h3>
+                    <p class="service-desc">
+                        Intelligent customer support solutions that engage visitors 24/7, answer complex queries, and seamlessly qualify leads.
+                    </p>
+                    <div class="service-list">
+                        <div class="service-list-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>24/7 Automated Customer Support</span>
+                        </div>
+                        <div class="service-list-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>Custom Knowledge Base Integration</span>
+                        </div>
+                        <div class="service-list-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>Multi-channel Lead Capture</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 2: Workflow Automation -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Workflow Automation</h3>
+                    <p class="service-desc">
+                        Streamlining repetitive tasks using powerful No-Code tools, connecting your software ecosystem into a friction-free pipeline.
+                    </p>
+                    <div class="service-list">
+                        <div class="service-list-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>No-Code & Low-Code Integrations</span>
+                        </div>
+                        <div class="service-list-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>Cross-App Data Synchronization</span>
+                        </div>
+                        <div class="service-list-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>Zero Human Error Pipelines</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 3: Personal AI Assistants -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Personal AI Assistants</h3>
+                    <p class="service-desc">
+                        Boosting daily productivity for small teams with custom agentic assistants tailored to your unique operational workflow.
+                    </p>
+                    <div class="service-list">
+                        <div class="service-list-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>Small Team Executive Support</span>
+                        </div>
+                        <div class="service-list-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>Automated Summaries & Insights</span>
+                        </div>
+                        <div class="service-list-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>Task Delegation & Reminders</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         IMPACT & USE CASES (RICH NEW SECTION)
+         ========================================================================== -->
+    <section class="impact-section" id="impact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Proven Impact</span>
+                <h2 class="section-title">Transforming Daily Business Operations</h2>
+                <p class="section-subtitle">See how practical AI agentic workflows deliver tangible results for growing companies.</p>
+            </div>
+
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <span class="impact-badge">Customer Support AI</span>
+                    <p class="impact-quote">"Automated over 85% of repetitive customer inquiries for our startup without hiring extra staff."</p>
+                    <div class="impact-result">⚡ Result: 24/7 Response Time & 70% Overhead Cut</div>
+                </div>
+
+                <div class="impact-card">
+                    <span class="impact-badge">No-Code Workflows</span>
+                    <p class="impact-quote">"Seamlessly synced our CRM, email outreach, and lead scoring pipelines in under a week."</p>
+                    <div class="impact-result">📈 Result: 15 Hours Saved per Week</div>
+                </div>
+
+                <div class="impact-card">
+                    <span class="impact-badge">Executive Assistants</span>
+                    <p class="impact-quote">"Our small consulting team now delegates scheduling, summary generation, and task tracking to our AI assistant."</p>
+                    <div class="impact-result">🚀 Result: 3x Team Productivity</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         FAQ SECTION (RICH NEW SECTION)
+         ========================================================================== -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Got Questions?</span>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Everything you need to know about getting started with MinduraX AI Solutions.</p>
+            </div>
+
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <span>Is MinduraX AI affordable for small businesses and freelancers?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="faq-body">
+                        Yes! Our core mission is to make advanced AI accessible to everyone. We specifically design budget-friendly solutions tailored for SMEs, startups, and independent creators without demanding heavy upfront capital.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <span>Do I need technical or coding skills to use your automation tools?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="faq-body">
+                        Not at all. We specialize in intuitive No-Code and Low-Code tools. We set up, test, and integrate the workflows for you so your team can focus on using them effortlessly.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-header">
+                        <span>How quickly can an AI agent or workflow be implemented?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="faq-body">
+                        Most custom AI chatbots and automated workflows can be fully configured and deployed in as little as 3 to 7 days, allowing you to see immediate efficiency gains.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         CONTACT SECTION
+         ========================================================================== -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div>
+                        <span class="section-tag">Let's Connect</span>
+                        <h2 class="section-title">Ready to Automate Your Business?</h2>
+                        <p style="color: var(--text-muted); font-size: 1.05rem;">
+                            Reach out today to discuss how our practical AI solutions can empower your business.
+                        </p>
+                    </div>
+
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </div>
+                            <div>
+                                <span style="font-size: 0.8rem; color: var(--text-dim); display: block;">Email Us</span>
+                                <span style="color: var(--text-main); font-weight: 500;">contact@mindurax.com</span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <span style="font-size: 0.8rem; color: var(--text-dim); display: block;">Industry</span>
+                                <span style="color: var(--text-main); font-weight: 500;">IT Services & IT Consulting</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="contact-form" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Your Name</label>
+                        <input type="text" id="name" required placeholder="John Doe" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" required placeholder="john@example.com" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="service" class="form-label">Interested Service</label>
+                        <select id="service" class="form-select" style="appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394A3B8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1.1rem center; background-size: 0.65rem auto;">
+                            <option value="AI Chatbots" style="background: #0d121e;">AI Chatbots</option>
+                            <option value="Workflow Automation" style="background: #0d121e;">Workflow Automation</option>
+                            <option value="Personal AI Assistants" style="background: #0d121e;">Personal AI Assistants</option>
+                            <option value="General Inquiry" style="background: #0d121e;">General Inquiry</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea id="message" required placeholder="Tell us about your automation goals..." class="form-textarea"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span>Send Message</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                    <div class="toast-message" id="toast">
+                        ✨ Message sent successfully! The MinduraX team will contact you shortly.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         FOOTER WITH BRAND LOGO
+         ========================================================================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <a href="#" class="logo">
+                    <div class="logo-img-wrapper">
+                        <img src="https://media.licdn.com/dms/image/v2/D560BAQHE8JPsToKngA/img-crop_100/B56ZmWUnQ7IAAM-/0/1759163611586?e=2147483647&v=beta&t=7irfliQXShD58xIqrWDKWF0XexpA1Q2nj2TeBo_5HVE" alt="MinduraX Intelligence Logo" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div style="display:none; width:100%; height:100%; align-items:center; justify-content:center; color:var(--cyan-primary); font-weight:800;">M</div>
+                    </div>
+                    <span>Mindura<span class="gradient-text">X</span></span>
+                </a>
+
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/company/mindurax-intelligence/" target="_blank" rel="noopener" class="social-btn" aria-label="LinkedIn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-btn" aria-label="Twitter">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-btn" aria-label="GitHub">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 MinduraX Intelligence. All rights reserved.</p>
+                <div class="footer-meta">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================================================
+         JAVASCRIPT LOGIC & PARTICLE CANVAS
+         ========================================================================== -->
+    <script>
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // FAQ Accordion Toggle
+        document.querySelectorAll('.faq-header').forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
+            });
+        });
+
+        // Form Submit Handler
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            document.getElementById('contact-form').reset();
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 5000);
+        }
+
+        // Particle Canvas Background Animation
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let particles = [];
+        const particleCount = 45;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.radius = Math.random() * 1.8 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0, 240, 255, 0.4)';
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 130) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 * (1 - dist / 130)})`;
+                        ctx.lineWidth = 0.6;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
