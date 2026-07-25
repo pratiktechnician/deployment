@@ -1820,4 +1820,47 @@
         animate();
     </script>
 </body>
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
+<style>
+	:root {
+		--chat--color--primary: #7c3aed;
+		--chat--color--primary-shade-50: #6d28d9;
+		--chat--color--primary--shade-100: #5b21b6;
+		--chat--color--secondary: #7c3aed;
+		--chat--color-secondary-shade-50: #6d28d9;
+
+		--chat--header--background: #4c1d95;
+		--chat--header--color: #ffffff;
+
+		--chat--toggle--background: #7c3aed;
+		--chat--toggle--hover--background: #6d28d9;
+		--chat--toggle--active--background: #5b21b6;
+
+		--chat--message--user--background: #7c3aed;
+		--chat--input--send--button--color: #7c3aed;
+		--chat--input--file--button--color: #7c3aed;
+	}
+</style>
+
+<script type="module">
+	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+	createChat({
+		webhookUrl: 'https://n8n.srv1154104.hstgr.cloud/webhook/ffd4fb29-cfff-4810-aa13-f6402491c708/chat',
+		initialMessages: [
+			'Hi there!',
+			'My name is Adrita - PMIWBC Digital Volunteer. How can I assist you today?'
+		],
+		i18n: {
+			en: {
+				title: 'Hi there!',
+				subtitle: 'Adrita - PMIWBC Digital Volunteer is here to help.',
+				footer: '',
+				getStarted: 'New Conversation',
+				inputPlaceholder: 'Type your question..'
+			}
+		}
+	});
+</script>
 </html>
