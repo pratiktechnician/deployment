@@ -1,6 +1,152 @@
 
 <!DOCTYPE html>
 <html lang="en">
+			<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
+<style>
+:root {
+
+    /* ===============================
+       MinduraX Intelligence Theme
+       =============================== */
+
+    --chat--color--primary: #00C2FF;
+    --chat--color--primary-shade-50: #009EE0;
+    --chat--color--primary--shade-100: #0078B8;
+
+    --chat--color--secondary: #6C63FF;
+    --chat--color-secondary-shade-50: #5A52F5;
+
+    /* Header */
+    --chat--header--background: linear-gradient(135deg,#081A3A 0%,#0B4DA2 50%,#00C2FF 100%);
+    --chat--header--color: #ffffff;
+
+    /* Window */
+    --chat--window--background: #F7FAFF;
+
+    /* Toggle Button */
+    --chat--toggle--background: linear-gradient(135deg,#00C2FF,#0066FF);
+    --chat--toggle--hover--background: #009EE0;
+    --chat--toggle--active--background: #0078B8;
+
+    /* User Messages */
+    --chat--message--user--background: linear-gradient(135deg,#00C2FF,#0066FF);
+    --chat--message--user--color: #ffffff;
+
+    /* Bot Messages */
+    --chat--message--bot--background: #ffffff;
+    --chat--message--bot--color: #1E293B;
+
+    /* Input */
+    --chat--input--send--button--color: #00C2FF;
+    --chat--input--file--button--color: #00C2FF;
+
+    /* Border Radius */
+    --chat--border-radius: 18px;
+}
+
+/* ===============================
+   Glassmorphism Chat Window
+   =============================== */
+
+.n8n-chat-window {
+
+    border-radius:20px !important;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.18);
+
+    backdrop-filter: blur(12px);
+
+}
+
+/* Header */
+
+.n8n-chat-header{
+
+    background:linear-gradient(135deg,#081A3A,#0B4DA2,#00C2FF)!important;
+
+}
+
+/* Toggle */
+
+.n8n-chat-toggle{
+
+    box-shadow:
+        0 10px 25px rgba(0,194,255,.45);
+
+}
+
+/* Buttons */
+
+.n8n-chat-send-button{
+
+    transition:.3s ease;
+
+}
+
+.n8n-chat-send-button:hover{
+
+    transform:scale(1.08);
+
+}
+
+/* Chat Messages */
+
+.n8n-chat-message{
+
+    border-radius:18px;
+
+}
+
+/* Input */
+
+.n8n-chat-input{
+
+    border-radius:14px;
+
+}
+</style>
+
+<script type="module">
+
+import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+createChat({
+
+    webhookUrl: 'https://n8n.srv1154104.hstgr.cloud/webhook/99cb0078-f503-48c4-88da-f97df5a1d460/chat',
+
+    initialMessages: [
+
+        '👋 Welcome to MinduraX Intelligence!',
+
+        "I'm **Jyotika**, your AI Digital Assistant. I'm here to help you explore AI Automation, Intelligent Agents, Digital Transformation, Workflow Automation, AI Consulting, and answer any questions about our solutions. How can I assist you today?"
+
+    ],
+
+    i18n: {
+
+        en: {
+
+            title: '🤖 Jyotika',
+
+            subtitle: 'AI Digital Assistant • MinduraX Intelligence',
+
+            footer: 'Powered by AI • Built with ❤️ by MinduraX Intelligence',
+
+            getStarted: 'Start a Conversation',
+
+            inputPlaceholder: 'Ask me anything about AI, Automation or MinduraX...'
+
+        }
+
+    }
+
+});
+
+</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -2018,152 +2164,7 @@
 
             animate();
         })();
-		<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 
-<style>
-:root {
-
-    /* ===============================
-       MinduraX Intelligence Theme
-       =============================== */
-
-    --chat--color--primary: #00C2FF;
-    --chat--color--primary-shade-50: #009EE0;
-    --chat--color--primary--shade-100: #0078B8;
-
-    --chat--color--secondary: #6C63FF;
-    --chat--color-secondary-shade-50: #5A52F5;
-
-    /* Header */
-    --chat--header--background: linear-gradient(135deg,#081A3A 0%,#0B4DA2 50%,#00C2FF 100%);
-    --chat--header--color: #ffffff;
-
-    /* Window */
-    --chat--window--background: #F7FAFF;
-
-    /* Toggle Button */
-    --chat--toggle--background: linear-gradient(135deg,#00C2FF,#0066FF);
-    --chat--toggle--hover--background: #009EE0;
-    --chat--toggle--active--background: #0078B8;
-
-    /* User Messages */
-    --chat--message--user--background: linear-gradient(135deg,#00C2FF,#0066FF);
-    --chat--message--user--color: #ffffff;
-
-    /* Bot Messages */
-    --chat--message--bot--background: #ffffff;
-    --chat--message--bot--color: #1E293B;
-
-    /* Input */
-    --chat--input--send--button--color: #00C2FF;
-    --chat--input--file--button--color: #00C2FF;
-
-    /* Border Radius */
-    --chat--border-radius: 18px;
-}
-
-/* ===============================
-   Glassmorphism Chat Window
-   =============================== */
-
-.n8n-chat-window {
-
-    border-radius:20px !important;
-
-    overflow:hidden;
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.18);
-
-    backdrop-filter: blur(12px);
-
-}
-
-/* Header */
-
-.n8n-chat-header{
-
-    background:linear-gradient(135deg,#081A3A,#0B4DA2,#00C2FF)!important;
-
-}
-
-/* Toggle */
-
-.n8n-chat-toggle{
-
-    box-shadow:
-        0 10px 25px rgba(0,194,255,.45);
-
-}
-
-/* Buttons */
-
-.n8n-chat-send-button{
-
-    transition:.3s ease;
-
-}
-
-.n8n-chat-send-button:hover{
-
-    transform:scale(1.08);
-
-}
-
-/* Chat Messages */
-
-.n8n-chat-message{
-
-    border-radius:18px;
-
-}
-
-/* Input */
-
-.n8n-chat-input{
-
-    border-radius:14px;
-
-}
-</style>
-
-<script type="module">
-
-import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-
-createChat({
-
-    webhookUrl: 'https://n8n.srv1154104.hstgr.cloud/webhook/99cb0078-f503-48c4-88da-f97df5a1d460/chat',
-
-    initialMessages: [
-
-        '👋 Welcome to MinduraX Intelligence!',
-
-        "I'm **Jyotika**, your AI Digital Assistant. I'm here to help you explore AI Automation, Intelligent Agents, Digital Transformation, Workflow Automation, AI Consulting, and answer any questions about our solutions. How can I assist you today?"
-
-    ],
-
-    i18n: {
-
-        en: {
-
-            title: '🤖 Jyotika',
-
-            subtitle: 'AI Digital Assistant • MinduraX Intelligence',
-
-            footer: 'Powered by AI • Built with ❤️ by MinduraX Intelligence',
-
-            getStarted: 'Start a Conversation',
-
-            inputPlaceholder: 'Ask me anything about AI, Automation or MinduraX...'
-
-        }
-
-    }
-
-});
-
-</script>
 
     </script>
 	
